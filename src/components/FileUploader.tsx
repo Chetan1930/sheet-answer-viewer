@@ -1,11 +1,12 @@
 
 import React, { useCallback } from 'react';
-import { Upload, FileSpreadsheet, Globe } from 'lucide-react';
+import { Upload, FileSpreadsheet, Globe, CheckCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Badge } from '@/components/ui/badge';
 import * as XLSX from 'xlsx';
 
 interface FileUploaderProps {
@@ -71,11 +72,17 @@ const FileUploader: React.FC<FileUploaderProps> = ({ onDataLoad, isLoading }) =>
       <CardHeader className="text-center">
         <CardTitle className="flex items-center justify-center gap-2 text-2xl">
           <FileSpreadsheet className="h-6 w-6 text-blue-600" />
-          Load Your Data
+          Data Source
         </CardTitle>
         <CardDescription>
-          Upload an Excel file or connect to Google Sheets to view your answers
+          Data is automatically loaded from Google Sheets. You can also upload additional files.
         </CardDescription>
+        <div className="flex items-center justify-center gap-2 mt-2">
+          <Badge variant="secondary" className="flex items-center gap-2">
+            <CheckCircle className="h-3 w-3" />
+            Auto-loaded from Google Sheets
+          </Badge>
+        </div>
       </CardHeader>
       <CardContent>
         <Tabs defaultValue="excel" className="w-full">
@@ -92,7 +99,7 @@ const FileUploader: React.FC<FileUploaderProps> = ({ onDataLoad, isLoading }) =>
           
           <TabsContent value="excel" className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="excel-file">Upload Excel File</Label>
+              <Label htmlFor="excel-file">Upload Additional Excel File</Label>
               <Input
                 id="excel-file"
                 type="file"
@@ -109,7 +116,7 @@ const FileUploader: React.FC<FileUploaderProps> = ({ onDataLoad, isLoading }) =>
           
           <TabsContent value="sheets" className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="sheets-url">Google Sheets URL</Label>
+              <Label htmlFor="sheets-url">Load Different Google Sheets URL</Label>
               <div className="flex gap-2">
                 <Input
                   id="sheets-url"
