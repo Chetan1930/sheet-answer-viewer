@@ -20,8 +20,8 @@ const AnswerDisplay: React.FC<AnswerDisplayProps> = ({ data }) => {
     );
   }
 
-  // Get the first 3 questions
-  const questions = Object.keys(data[0]).slice(0, 3);
+  // Get all questions (all columns from the first row)
+  const questions = Object.keys(data[0]);
 
   return (
     <div className="w-full space-y-6">
