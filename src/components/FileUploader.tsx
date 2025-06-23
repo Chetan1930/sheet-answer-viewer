@@ -1,5 +1,6 @@
 
 import React, { useCallback } from 'react';
+import axios from 'axios';
 import { Upload, FileSpreadsheet, Globe, CheckCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -37,33 +38,32 @@ const FileUploader: React.FC<FileUploaderProps> = ({ onDataLoad, isLoading }) =>
     reader.readAsArrayBuffer(file);
   }, [onDataLoad]);
 
-  const handleGoogleSheetUrl = (url: string) => {
-    // Extract sheet ID from Google Sheets URL
-    const match = url.match(/\/spreadsheets\/d\/([a-zA-Z0-9-_]+)/);
-    if (match) {
-      const sheetId = match[1];
-      const csvUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv`;
-      
-      fetch(csvUrl)
-        .then(response => response.text())
-        .then(csv => {
-          const lines = csv.split('\n');
-          const headers = lines[0].split(',').map(h => h.trim().replace(/"/g, ''));
-          const data = lines.slice(1).map(line => {
-            const values = line.split(',').map(v => v.trim().replace(/"/g, ''));
-            const obj: any = {};
-            headers.forEach((header, index) => {
-              obj[header] = values[index] || '';
-            });
-            return obj;
-          }).filter(row => Object.values(row).some(val => val));
-          
-          console.log('Loaded Google Sheets data:', data);
-          onDataLoad(data);
-        })
-        .catch(error => {
-          console.error('Error loading Google Sheets data:', error);
+  const handleGoogleSheetUrl = async (url: string) => {
+    try {
+      // Extract sheet ID from Google Sheets URL
+      const match = url.match(/\/spreadsheets\/d\/([a-zA-Z0-9-_]+)/);
+      if (match) {
+        const sheetId = match[1];
+        const jsonUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json`;
+        
+        const response = await axios.get(jsonUrl);
+        
+        // Parse the JSON response (remove the callback wrapper)
+        const jsonData = JSON.parse(response.data.substring(47).slice(0, -2));
+        const columns = jsonData.table.cols.map((col: any) => col.label);
+        const rowData = jsonData.table.rows.map((row: any) => {
+          const obj: any = {};
+          row.c.forEach((cell: any, index: number) => {
+            obj[columns[index]] = cell ? cell.v : "";
+          });
+          return obj;
         });
+        
+        console.log('Loaded Google Sheets data:', rowData);
+        onDataLoad(rowData);
+      }
+    } catch (error) {
+      console.error('Error loading Google Sheets data:', error);
     }
   };
 

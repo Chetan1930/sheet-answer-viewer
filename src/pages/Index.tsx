@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import Header from '@/components/Header';
 import FileUploader from '@/components/FileUploader';
 import AnswerDisplay from '@/components/AnswerDisplay';
@@ -10,28 +11,27 @@ const Index = () => {
   const [sheetData, setSheetData] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const HARDCODED_SHEET_URL = 'https://docs.google.com/spreadsheets/d/1TgpCE8snDdR0AAUtzDPhyVukxDMME8YndQYxdm01uoE/export?format=csv';
+  const HARDCODED_SHEET_URL = 'https://docs.google.com/spreadsheets/d/1TgpCE8snDdR0AAUtzDPhyVukxDMME8YndQYxdm01uoE/gviz/tq?tqx=out:json';
 
   useEffect(() => {
     const fetchHardcodedData = async () => {
       try {
         console.log('Fetching hardcoded Google Sheets data...');
-        const response = await fetch(HARDCODED_SHEET_URL);
-        const csv = await response.text();
+        const response = await axios.get(HARDCODED_SHEET_URL);
         
-        const lines = csv.split('\n');
-        const headers = lines[0].split(',').map(h => h.trim().replace(/"/g, ''));
-        const data = lines.slice(1).map(line => {
-          const values = line.split(',').map(v => v.trim().replace(/"/g, ''));
+        // Parse the JSON response (remove the callback wrapper)
+        const jsonData = JSON.parse(response.data.substring(47).slice(0, -2));
+        const columns = jsonData.table.cols.map((col: any) => col.label);
+        const rowData = jsonData.table.rows.map((row: any) => {
           const obj: any = {};
-          headers.forEach((header, index) => {
-            obj[header] = values[index] || '';
+          row.c.forEach((cell: any, index: number) => {
+            obj[columns[index]] = cell ? cell.v : "";
           });
           return obj;
-        }).filter(row => Object.values(row).some(val => val));
+        });
         
-        console.log('Loaded hardcoded Google Sheets data:', data);
-        setSheetData(data);
+        console.log('Loaded hardcoded Google Sheets data:', rowData);
+        setSheetData(rowData);
       } catch (error) {
         console.error('Error loading hardcoded Google Sheets data:', error);
       } finally {
