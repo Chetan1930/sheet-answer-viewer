@@ -15,7 +15,7 @@ A modern web application for viewing and analyzing survey responses from Excel f
 
 - **Multiple Data Sources**: Support for Excel files (.xlsx, .xls, .csv) and Google Sheets
 - **Individual Response View**: Each person's complete set of answers displayed in organized cards
-- **Responsive Design**: Works seamlessly on desktop and mobile devices
+- **Responsive Design**: Works seamlessly on all desktop and mobile devices
 - **Real-time Data Processing**: Instant visualization of uploaded data
 - **Clean UI**: Modern interface built with Tailwind CSS and shadcn/ui components
 
