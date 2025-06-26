@@ -3,22 +3,21 @@
 
 A modern web application for viewing and analyzing survey responses from Excel files and Google Sheets. Display individual responses in a clean, organized format with a beautiful user interface.
 
-#Live Link 
+## Live Demo
 
-Demo Link: https://niramayam12.netlify.app/
+🌐 **Live Link**: [https://niramayam12.netlify.app/](https://niramayam12.netlify.app/)
+
+📁 **GitHub Repository**: [https://github.com/Chetan1930/sheet-answer-viewer](https://github.com/Chetan1930/sheet-answer-viewer)
+
+👨‍💻 **Developer**: [Chetan1930](https://github.com/Chetan1930)
 
 ## Features
 
 - **Multiple Data Sources**: Support for Excel files (.xlsx, .xls, .csv) and Google Sheets
-- **Automatic Data Loading**: Pre-configured to load data from a Google Sheet automatically
 - **Individual Response View**: Each person's complete set of answers displayed in organized cards
 - **Responsive Design**: Works seamlessly on desktop and mobile devices
 - **Real-time Data Processing**: Instant visualization of uploaded data
 - **Clean UI**: Modern interface built with Tailwind CSS and shadcn/ui components
-
-## Demo
-
-The application automatically loads sample data from a Google Sheet to demonstrate functionality. You can also upload your own Excel files or connect to different Google Sheets.
 
 ## Getting Started
 
@@ -31,7 +30,7 @@ The application automatically loads sample data from a Google Sheet to demonstra
 
 1. Clone the repository:
 ```bash
-git clone <your-repository-url>
+git clone https://github.com/Chetan1930/sheet-answer-viewer.git
 cd sheet-answer-viewer
 ```
 
@@ -50,8 +49,6 @@ npm run dev
 ## Usage
 
 ### Loading Data
-
-**Automatic Loading**: The app automatically loads sample data on startup from a pre-configured Google Sheet.
 
 **Upload Excel Files**: 
 - Click on the "Excel File" tab
@@ -150,4 +147,4 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ## Support
 
-If you encounter any issues or have questions, please open an issue in the repository.
+If you encounter any issues or have questions, please open an issue in the [GitHub repository](https://github.com/Chetan1930/sheet-answer-viewer).
